@@ -1,0 +1,39 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API TEST</title>
+</head>
+<body>
+    <form id="Form">
+    
+      <input type="text" id="Array" name="dataArray" placeholder="Enter Data......"/><br />
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="Container"></div>
+
+    <script>
+      document.getElementById("Form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const data = document.getElementById("Array").value.split(",").map(item => item.trim()).filter(Boolean);
+          try {
+            const response = await fetch("/bfhl", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+
+            const responseData = await response.json();
+            document.getElementById("Container").innerHTML = JSON.stringify(responseData, null, 2);
+          } catch (error) {
+            console.error("Error:", error);
+          }
+      });
+    </script>
+</body>
+</html>
